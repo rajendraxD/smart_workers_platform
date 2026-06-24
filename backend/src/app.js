@@ -11,7 +11,7 @@ import { morganStream } from "./config/logger.js";
 import { apiLimiter } from "./middleware/rateLimiter.js";
 import { requestContext } from "./middleware/requestContext.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
-// import routes from "./routes/index.js";
+import routes from "./routes/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -36,11 +36,11 @@ export function createApp() {
   // Static avatars (local disk fallback)
   app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
-  app.get("/", (res, req) => {
-    return res.send("Server is running...");
+  app.get("/", (req, res) => {
+    return res.send("Smart Workers Platform API is running...");
   });
 
-  // app.use("/api", apiLimiter, routes);
+  app.use("/api", apiLimiter, routes);
 
   app.use(notFound);
   app.use(errorHandler);
